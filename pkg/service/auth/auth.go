@@ -41,7 +41,14 @@ func LoginUser(username, password string) (*AuthTokens, error) {
 	if !checkPasswordHash(password, user.HashedPassword) {
 		return nil, ErrorInvalidCreds
 	}
-	return nil, nil
+	authToken, err := generateAccessToken(user.ID, user.Username)
+	if err != nil {
+		return nil, fmt.Errorf("error generating access token: %v", err)
+	}
+
+	return &AuthTokens{
+		JWTToken: JWTToken(authToken),
+	}, nil
 }
 
 func RegisterUser(username, password string) error {

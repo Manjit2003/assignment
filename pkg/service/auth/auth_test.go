@@ -32,9 +32,13 @@ func TestLoginUser(t *testing.T) {
 		t.Errorf("error registering new user: %v", err)
 	}
 
-	_, err = auth_service.LoginUser(user, pass)
+	tokens, err := auth_service.LoginUser(user, pass)
 
 	if err != nil {
 		t.Errorf("error in user login: %v", err)
+	}
+
+	if tokens.JWTToken == "" {
+		t.Errorf("returned blank jwt")
 	}
 }
