@@ -46,6 +46,8 @@ func InitDatabase(cfg DBConfig) {
 	if err != nil {
 		log.Error("could not connect to the databse: %v", err)
 	}
+
+	log.Info("database initialized")
 }
 
 // a hacky migration setup for now, will upgrade later
@@ -63,6 +65,13 @@ func createSchema() error {
 		fmt.Sprintf(`CREATE INDEX IF NOT EXISTS idx_todo_user_id ON %s.todos (user_id)`, keyspace),
 		fmt.Sprintf(`CREATE INDEX IF NOT EXISTS idx_todo_status ON %s.todos (status)`, keyspace),
 		fmt.Sprintf(`CREATE INDEX IF NOT EXISTS idx_todo_created ON %s.todos (created)`, keyspace),
+		fmt.Sprintf(`CREATE TABLE IF NOT EXISTS %s.users (
+        	id UUID PRIMARY KEY,
+        	username TEXT,
+        	hashed_password TEXT,
+        	created TIMESTAMP,
+        	updated TIMESTAMP
+    	)`, keyspace),
 	}
 
 	for _, query := range queries {
@@ -70,6 +79,8 @@ func createSchema() error {
 			return fmt.Errorf("failed to execute query %q: %w", query, err)
 		}
 	}
+
+	log.Debug(fmt.Sprintf("migration complete, executed %d queries", len(queries)))
 
 	return nil
 }
@@ -83,5 +94,8 @@ func createKeyspace() error {
 	if err := ScyllaSession.Query(query).Exec(); err != nil {
 		return fmt.Errorf("failed to create keyspace: %v", err)
 	}
+
+	log.Debug("keyspace created successfully")
+
 	return nil
 }
