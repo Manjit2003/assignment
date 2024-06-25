@@ -35,15 +35,12 @@ func LoginUser(username, password string) (*AuthTokens, error) {
 	if err != nil {
 		return nil, fmt.Errorf("error getting user: %v", err)
 	}
-
 	if user == nil {
 		return nil, ErrorInvalidCreds
 	}
-
 	if !checkPasswordHash(password, user.HashedPassword) {
 		return nil, ErrorInvalidCreds
 	}
-
 	return nil, nil
 }
 

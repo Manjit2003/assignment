@@ -7,10 +7,10 @@ import (
 )
 
 const (
-	queryGetUser = `SELECT id, username, created, updated FROM users
-              WHERE username = ?;`
+	queryGetUser = `SELECT id, username, hashed_password, created, updated FROM users
+				WHERE username = ?;`
 	queryAddUser = `INSERT INTO users (id, username, hashed_password, created, updated)
-              VALUES (uuid(), ?, ?, toTimestamp(now()), toTimestamp(now()))`
+				VALUES (uuid(), ?, ?, toTimestamp(now()), toTimestamp(now()))`
 )
 
 func AddUser(username, hashedPassword string) error {
@@ -22,6 +22,7 @@ func GetUser(username string) (*model.User, error) {
 	if err := db.ScyllaSession.Query(queryGetUser, username).Consistency(gocql.One).Scan(
 		&user.ID,
 		&user.Username,
+		&user.HashedPassword,
 		&user.Created,
 		&user.Updated,
 	); err != nil {
