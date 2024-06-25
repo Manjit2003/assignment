@@ -11,6 +11,3 @@ type TodoItem struct {
 	Created     time.Time `json:"created"`
 	Updated     time.Time `json:"updated"`
 }
-
-type TodoFilterValues struct {
-}
