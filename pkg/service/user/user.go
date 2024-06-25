@@ -6,22 +6,20 @@ import (
 	"github.com/gocql/gocql"
 )
 
-var session = db.ScyllaSession
-
 const (
-	queryGetUser = `SELECT id, username, created, updated FROM your_keyspace_name.users
-              WHERE username = ? AND hashed_password = ?;`
+	queryGetUser = `SELECT id, username, created, updated FROM users
+              WHERE username = ?;`
 	queryAddUser = `INSERT INTO users (id, username, hashed_password, created, updated)
               VALUES (uuid(), ?, ?, toTimestamp(now()), toTimestamp(now()))`
 )
 
 func AddUser(username, hashedPassword string) error {
-	return session.Query(queryAddUser, username, hashedPassword).Exec()
+	return db.ScyllaSession.Query(queryAddUser, username, hashedPassword).Exec()
 }
 
-func GetUser(username, hashedPassword string) (*model.User, error) {
+func GetUser(username string) (*model.User, error) {
 	var user model.User
-	if err := session.Query(queryGetUser, username, hashedPassword).Consistency(gocql.One).Scan(
+	if err := db.ScyllaSession.Query(queryGetUser, username).Consistency(gocql.One).Scan(
 		&user.ID,
 		&user.Username,
 		&user.Created,
