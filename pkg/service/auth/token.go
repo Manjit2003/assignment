@@ -17,10 +17,10 @@ type JWTData struct {
 	CustomClaims `json:"custom_claims"`
 }
 
-func generateAccessToken(userId string, username string) (string, error) {
+func generateToken(userId, username string, duration time.Duration) (string, error) {
 	claims := JWTData{
 		RegisteredClaims: jwt.RegisteredClaims{
-			ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Minute * 10)),
+			ExpiresAt: jwt.NewNumericDate(time.Now().Add(duration)),
 		},
 		CustomClaims: CustomClaims{
 			UserID:   userId,
