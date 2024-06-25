@@ -60,9 +60,9 @@ func createSchema() error {
         	created TIMESTAMP,
         	updated TIMESTAMP
     	)`, keyspace),
-		fmt.Sprintf(`CREATE INDEX IF NOT EXISTS idx_todo_user_id ON %s.todo (user_id)`, keyspace),
-		fmt.Sprintf(`CREATE INDEX IF NOT EXISTS idx_todo_status ON %s.todo (status)`, keyspace),
-		fmt.Sprintf(`CREATE INDEX IF NOT EXISTS idx_todo_created ON %s.todo (created)`, keyspace),
+		fmt.Sprintf(`CREATE INDEX IF NOT EXISTS idx_todo_user_id ON %s.todos (user_id)`, keyspace),
+		fmt.Sprintf(`CREATE INDEX IF NOT EXISTS idx_todo_status ON %s.todos (status)`, keyspace),
+		fmt.Sprintf(`CREATE INDEX IF NOT EXISTS idx_todo_created ON %s.todos (created)`, keyspace),
 	}
 
 	for _, query := range queries {
