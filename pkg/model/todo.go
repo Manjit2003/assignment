@@ -4,7 +4,7 @@ import "time"
 
 type TodoItem struct {
 	ID          string    `json:"id"`
-	UserID      string    `json:"user_id"`
+	UserID      string    `json:"-"`
 	Title       string    `json:"title"`
 	Description string    `json:"description"`
 	Status      string    `json:"status"`
