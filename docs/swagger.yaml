@@ -1,0 +1,16 @@
+basePath: /api/v1
+externalDocs:
+  description: Github Repo
+  url: https://github.com/Manjit2003/assignment
+info:
+  contact:
+    email: manjit2003@proton.me
+    name: Manjeet Pardeshi
+  description: This is my submission to the assignment as requested by Samespace.
+  title: Samespace Assignment
+  version: "1.0"
+paths: {}
+securityDefinitions:
+  BasicAuth:
+    type: basic
+swagger: "2.0"

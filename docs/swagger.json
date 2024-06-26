@@ -1,0 +1,23 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "This is my submission to the assignment as requested by Samespace.",
+        "title": "Samespace Assignment",
+        "contact": {
+            "name": "Manjeet Pardeshi",
+            "email": "manjit2003@proton.me"
+        },
+        "version": "1.0"
+    },
+    "basePath": "/api/v1",
+    "paths": {},
+    "securityDefinitions": {
+        "BasicAuth": {
+            "type": "basic"
+        }
+    },
+    "externalDocs": {
+        "description": "Github Repo",
+        "url": "https://github.com/Manjit2003/assignment"
+    }
+}

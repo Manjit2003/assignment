@@ -9,8 +9,20 @@ import (
 	"github.com/Manjit2003/samespace/pkg/api/server"
 	"github.com/Manjit2003/samespace/pkg/db"
 	"github.com/Manjit2003/samespace/pkg/utils"
+
+	// http-swagger middleware
+	_ "github.com/Manjit2003/samespace/docs"
 )
 
+//	@title						Samespace Assignment
+//	@version					1.0
+//	@description				This is my submission to the assignment as requested by Samespace.
+//	@contact.name				Manjeet Pardeshi
+//	@contact.email				manjit2003@proton.me
+//	@BasePath					/api/v1
+//	@securityDefinitions.basic	BasicAuth
+//	@externalDocs.description	Github Repo
+//	@externalDocs.url			https://github.com/Manjit2003/assignment
 func main() {
 
 	log := utils.GetChildLogger("entrypoint")
