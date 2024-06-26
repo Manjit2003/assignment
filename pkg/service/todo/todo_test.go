@@ -82,7 +82,7 @@ func TestGetTodos(t *testing.T) {
 			t.Errorf("error getting todos!: %v", err)
 		}
 
-		if len(todos) > 10 {
+		if len(todos) != 10 {
 			t.Errorf("todos are more than requested :%d", len(todos))
 		}
 
