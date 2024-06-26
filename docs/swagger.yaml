@@ -1,7 +1,24 @@
 basePath: /api/v1
-externalDocs:
-  description: Github Repo
-  url: https://github.com/Manjit2003/assignment
+definitions:
+  handler.HandleGetAccessToken.payload:
+    properties:
+      refresh_token:
+        type: string
+    type: object
+  handler.HandleUserLogin.payload:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  handler.HandleUserRegister.payload:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    type: object
 info:
   contact:
     email: manjit2003@proton.me
@@ -9,8 +26,66 @@ info:
   description: This is my submission to the assignment as requested by Samespace.
   title: Samespace Assignment
   version: "1.0"
-paths: {}
+paths:
+  /auth/login:
+    post:
+      consumes:
+      - application/json
+      description: |-
+        Returns the access token and refresh token upon successfull login
+        Please note that the accessToken will be valid only for 10 mins
+      parameters:
+      - description: data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handler.HandleUserLogin.payload'
+      produces:
+      - application/json
+      responses: {}
+      summary: Login into your account
+      tags:
+      - Authentication
+  /auth/refresh:
+    post:
+      consumes:
+      - application/json
+      description: Return's new access token from the refresh token
+      parameters:
+      - description: data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handler.HandleGetAccessToken.payload'
+      produces:
+      - application/json
+      responses: {}
+      summary: Get new access token
+      tags:
+      - Authentication
+  /auth/register:
+    post:
+      consumes:
+      - application/json
+      description: Creates a new user account to add todos
+      parameters:
+      - description: data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handler.HandleUserRegister.payload'
+      produces:
+      - application/json
+      responses: {}
+      summary: Create new user account
+      tags:
+      - Authentication
 securityDefinitions:
-  BasicAuth:
-    type: basic
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
 swagger: "2.0"

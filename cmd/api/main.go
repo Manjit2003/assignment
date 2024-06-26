@@ -14,15 +14,17 @@ import (
 	_ "github.com/Manjit2003/samespace/docs"
 )
 
-//	@title						Samespace Assignment
-//	@version					1.0
-//	@description				This is my submission to the assignment as requested by Samespace.
-//	@contact.name				Manjeet Pardeshi
-//	@contact.email				manjit2003@proton.me
-//	@BasePath					/api/v1
-//	@securityDefinitions.basic	BasicAuth
-//	@externalDocs.description	Github Repo
-//	@externalDocs.url			https://github.com/Manjit2003/assignment
+// @title						Samespace Assignment
+// @version					1.0
+// @description				This is my submission to the assignment as requested by Samespace.
+// @contact.name				Manjeet Pardeshi
+// @contact.email				manjit2003@proton.me
+// @BasePath					/api/v1
+// @securityDefinitions.apikey	ApiKeyAuth
+// @in							header
+// @name						Authorization
+// @externalDocs.description	Github Repo
+// @externalDocs.url			http://github.com/Manjit2003/assignment
 func main() {
 
 	log := utils.GetChildLogger("entrypoint")
