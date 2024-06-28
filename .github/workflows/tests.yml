@@ -1,0 +1,34 @@
+name: Run Tests
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      scylla:
+        image: scylladb/scylla:latest
+        ports:
+          - 9042:9042
+        env:
+          SCYLLA_SEEDS: "scylla"
+          SCYLLA_CLUSTER_NAME: "scylladb"
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: "1.18"
+        id: go
+
+      - name: Build and test
+        run: |
+          go mod download
+          go test ./...
+
+      - name: Stop ScyllaDB
+        run: docker stop scylla

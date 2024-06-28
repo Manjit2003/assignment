@@ -8,16 +8,16 @@ import (
 	"github.com/Manjit2003/samespace/pkg/utils"
 )
 
-// @Summary      Login into your account
-// @Description  Returns the access token and refresh token upon successfull login
-// @Description  Please note that the accessToken will be valid only for 10 mins
-// @Tags         Authentication
-// @Accept       json
-// @Produce      json
-// @Success      200  {object}  utils.HTTPReponse
-// @Failure      500  {object}  utils.HTTPReponse
-// @Param request body handler.HandleUserLogin.payload true "data"
-// @Router       /auth/login [post]
+//	@Summary		Login into your account
+//	@Description	Returns the access token and refresh token upon successfull login
+//	@Description	Please note that the accessToken will be valid only for 10 mins
+//	@Tags			Authentication
+//	@Accept			json
+//	@Produce		json
+//	@Success		200		{object}	utils.HTTPReponse
+//	@Failure		500		{object}	utils.HTTPReponse
+//	@Param			request	body		handler.HandleUserLogin.payload	true	"data"
+//	@Router			/auth/login [post]
 func HandleUserLogin(w http.ResponseWriter, r *http.Request) {
 	type payload struct {
 		Username string `json:"username"`
@@ -56,15 +56,15 @@ func HandleUserLogin(w http.ResponseWriter, r *http.Request) {
 	})
 }
 
-// @Summary      Create new user account
-// @Description  Creates a new user account to add todos
-// @Tags         Authentication
-// @Accept       json
-// @Produce      json
-// @Success      200  {object}  utils.HTTPReponse
-// @Failure      500  {object}  utils.HTTPReponse
-// @Param request body handler.HandleUserRegister.payload true "data"
-// @Router       /auth/register [post]
+//	@Summary		Create new user account
+//	@Description	Creates a new user account to add todos
+//	@Tags			Authentication
+//	@Accept			json
+//	@Produce		json
+//	@Success		200		{object}	utils.HTTPReponse
+//	@Failure		500		{object}	utils.HTTPReponse
+//	@Param			request	body		handler.HandleUserRegister.payload	true	"data"
+//	@Router			/auth/register [post]
 func HandleUserRegister(w http.ResponseWriter, r *http.Request) {
 	type payload struct {
 		Username string `json:"username"`
@@ -102,15 +102,15 @@ func HandleUserRegister(w http.ResponseWriter, r *http.Request) {
 	})
 }
 
-// @Summary      Get new access token
-// @Description  Return's new access token from the refresh token
-// @Tags         Authentication
-// @Accept       json
-// @Produce      json
-// @Success      200  {object}  utils.HTTPReponse
-// @Failure      500  {object}  utils.HTTPReponse
-// @Param request body handler.HandleGetAccessToken.payload true "data"
-// @Router       /auth/refresh [post]
+//	@Summary		Get new access token
+//	@Description	Return's new access token from the refresh token
+//	@Tags			Authentication
+//	@Accept			json
+//	@Produce		json
+//	@Success		200		{object}	utils.HTTPReponse
+//	@Failure		500		{object}	utils.HTTPReponse
+//	@Param			request	body		handler.HandleGetAccessToken.payload	true	"data"
+//	@Router			/auth/refresh [post]
 func HandleGetAccessToken(w http.ResponseWriter, r *http.Request) {
 	type payload struct {
 		RefreshToken string `json:"refresh_token"`
