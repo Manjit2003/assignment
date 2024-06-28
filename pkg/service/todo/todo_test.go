@@ -1,7 +1,6 @@
 package todo_service_test
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/Manjit2003/samespace/pkg/config"
@@ -55,7 +54,7 @@ func TestGetTodos(t *testing.T) {
 	})
 
 	t.Run("get user todos", func(t *testing.T) {
-		todos, _, err := todo_service.GetUserTodos(userId, 10, "", nil)
+		todos, _, err := todo_service.GetUserTodos(userId, 10, []byte(""), nil)
 
 		if err != nil {
 			t.Errorf("error getting todos!: %v", err)
@@ -76,7 +75,7 @@ func TestGetTodos(t *testing.T) {
 
 		}
 
-		todos, state, err := todo_service.GetUserTodos(userId, 10, "", nil)
+		todos, _, err := todo_service.GetUserTodos(userId, 10, []byte(""), nil)
 
 		if err != nil {
 			t.Errorf("error getting todos!: %v", err)
@@ -86,7 +85,6 @@ func TestGetTodos(t *testing.T) {
 			t.Errorf("todos are more than requested :%d", len(todos))
 		}
 
-		fmt.Println(state)
 	})
 
 }

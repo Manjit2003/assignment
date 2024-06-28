@@ -1,6 +1,7 @@
 package todo_service
 
 import (
+	"encoding/base64"
 	"fmt"
 	"strings"
 
@@ -24,7 +25,7 @@ func AddUserTodo(item model.TodoItem, userId string) error {
 	).Exec()
 }
 
-func GetUserTodos(userId string, pageSize int, pageState string, status *string) ([]model.TodoItem, string, error) {
+func GetUserTodos(userId string, pageSize int, pageState []byte, status *string) ([]model.TodoItem, string, error) {
 	q := strings.Clone(queryGetTodos)
 	params := []interface{}{userId}
 	if status != nil {
@@ -32,13 +33,13 @@ func GetUserTodos(userId string, pageSize int, pageState string, status *string)
 		params = append(params, *status)
 	}
 	var todos []model.TodoItem
-	query := db.ScyllaSession.Query(q, params...).PageSize(10).PageState([]byte(pageState))
+	query := db.ScyllaSession.Query(q, params...).PageSize(pageSize).PageState([]byte(pageState))
 	iter := query.Iter()
 	var todo model.TodoItem
 	for iter.Scan(&todo.ID, &todo.Title, &todo.Description, &todo.Status, &todo.Created, &todo.Updated) {
 		todos = append(todos, todo)
 	}
-	newPageState := string(iter.PageState())
+	newPageState := base64.StdEncoding.EncodeToString(iter.PageState())
 	if err := iter.Close(); err != nil {
 		return nil, "", fmt.Errorf("failed to query todos: %v", err)
 	}

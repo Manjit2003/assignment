@@ -7,7 +7,7 @@ import (
 )
 
 type HTTPReponse struct {
-	Error   bool        `json:"erro"`
+	Error   bool        `json:"error"`
 	Message string      `json:"message"`
 	Data    interface{} `json:"data,omitempty"`
 }

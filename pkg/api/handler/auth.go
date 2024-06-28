@@ -14,6 +14,8 @@ import (
 // @Tags         Authentication
 // @Accept       json
 // @Produce      json
+// @Success      200  {object}  utils.HTTPReponse
+// @Failure      500  {object}  utils.HTTPReponse
 // @Param request body handler.HandleUserLogin.payload true "data"
 // @Router       /auth/login [post]
 func HandleUserLogin(w http.ResponseWriter, r *http.Request) {
@@ -59,6 +61,8 @@ func HandleUserLogin(w http.ResponseWriter, r *http.Request) {
 // @Tags         Authentication
 // @Accept       json
 // @Produce      json
+// @Success      200  {object}  utils.HTTPReponse
+// @Failure      500  {object}  utils.HTTPReponse
 // @Param request body handler.HandleUserRegister.payload true "data"
 // @Router       /auth/register [post]
 func HandleUserRegister(w http.ResponseWriter, r *http.Request) {
@@ -103,6 +107,8 @@ func HandleUserRegister(w http.ResponseWriter, r *http.Request) {
 // @Tags         Authentication
 // @Accept       json
 // @Produce      json
+// @Success      200  {object}  utils.HTTPReponse
+// @Failure      500  {object}  utils.HTTPReponse
 // @Param request body handler.HandleGetAccessToken.payload true "data"
 // @Router       /auth/refresh [post]
 func HandleGetAccessToken(w http.ResponseWriter, r *http.Request) {

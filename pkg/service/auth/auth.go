@@ -78,3 +78,11 @@ func GetAccessTokenFromRefreshToken(token string) (string, error) {
 	}
 	return generateToken(claims.UserID, claims.Username, time.Minute*10)
 }
+
+func GetUserFromJWT(token string) (string, error) {
+	claims, err := parseJWT(token)
+	if err != nil {
+		return "", fmt.Errorf("error parsing token: %v", err)
+	}
+	return claims.UserID, nil
+}

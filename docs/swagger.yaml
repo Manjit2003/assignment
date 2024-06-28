@@ -1,5 +1,12 @@
 basePath: /api/v1
 definitions:
+  handler.HandleAddUserTodo.payload:
+    properties:
+      description:
+        type: string
+      title:
+        type: string
+    type: object
   handler.HandleGetAccessToken.payload:
     properties:
       refresh_token:
@@ -17,6 +24,14 @@ definitions:
       password:
         type: string
       username:
+        type: string
+    type: object
+  utils.HTTPReponse:
+    properties:
+      data: {}
+      error:
+        type: boolean
+      message:
         type: string
     type: object
 info:
@@ -43,7 +58,15 @@ paths:
           $ref: '#/definitions/handler.HandleUserLogin.payload'
       produces:
       - application/json
-      responses: {}
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.HTTPReponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.HTTPReponse'
       summary: Login into your account
       tags:
       - Authentication
@@ -61,7 +84,15 @@ paths:
           $ref: '#/definitions/handler.HandleGetAccessToken.payload'
       produces:
       - application/json
-      responses: {}
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.HTTPReponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.HTTPReponse'
       summary: Get new access token
       tags:
       - Authentication
@@ -79,10 +110,95 @@ paths:
           $ref: '#/definitions/handler.HandleUserRegister.payload'
       produces:
       - application/json
-      responses: {}
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.HTTPReponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.HTTPReponse'
       summary: Create new user account
       tags:
       - Authentication
+  /todos:
+    get:
+      description: Returns a paginated list of TODO items for a user, with support
+        for status filtering and pagination.
+      parameters:
+      - description: TODO status (e.g., pending, completed)
+        in: query
+        name: status
+        type: string
+      - description: Pagination state
+        in: query
+        name: page_state
+        type: string
+      - description: Page size
+        in: query
+        name: page_size
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Todos fetched
+          schema:
+            $ref: '#/definitions/utils.HTTPReponse'
+        "400":
+          description: Invalid request payload
+          schema:
+            $ref: '#/definitions/utils.HTTPReponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/utils.HTTPReponse'
+        "500":
+          description: Internal server error"// @Security     ApiKeyAuth
+          schema:
+            $ref: '#/definitions/utils.HTTPReponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Get user's TODOs in paginated form
+      tags:
+      - Todos
+    post:
+      consumes:
+      - application/json
+      description: Adds a new todo item for a user with the provided title and description.
+        Requires user authentication.
+      parameters:
+      - description: Todo item data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handler.HandleAddUserTodo.payload'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Todo item added successfully
+          schema:
+            $ref: '#/definitions/utils.HTTPReponse'
+        "400":
+          description: Invalid request payload
+          schema:
+            $ref: '#/definitions/utils.HTTPReponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/utils.HTTPReponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/utils.HTTPReponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Add a new todo item
+      tags:
+      - Todos
 securityDefinitions:
   ApiKeyAuth:
     in: header

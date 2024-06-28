@@ -27,6 +27,12 @@ func MakeRouter() *mux.Router {
 		authRouter.HandleFunc("/login", handler.HandleUserLogin).Methods("POST")
 		authRouter.HandleFunc("/register", handler.HandleUserRegister).Methods("POST")
 		authRouter.HandleFunc("/refresh", handler.HandleGetAccessToken).Methods("POST")
+
+		todoRouter := v1.PathPrefix("/todos").Subrouter()
+		todoRouter.Use(middleware.AuthMiddleware)
+		todoRouter.HandleFunc("", handler.HandleGetUserTodos).Methods("GET")
+		todoRouter.HandleFunc("", handler.HandleAddUserTodo).Methods("POST")
+
 	}
 
 	return r
