@@ -54,23 +54,25 @@ func InitDatabase(cfg DBConfig) {
 func createSchema() error {
 	queries := []string{
 		fmt.Sprintf(`CREATE TABLE IF NOT EXISTS %s.todos (
-        	id UUID PRIMARY KEY,
-        	user_id UUID,
-        	title TEXT,
-        	description TEXT,
-        	status TEXT,
-        	created TIMESTAMP,
-        	updated TIMESTAMP
-    	)`, keyspace),
+			user_id UUID,
+			status TEXT,
+			id UUID,
+			title TEXT,
+			description TEXT,
+			created TIMESTAMP,
+			updated TIMESTAMP,
+			PRIMARY KEY ((user_id, status), id)
+		);`, keyspace),
 		fmt.Sprintf(`CREATE INDEX IF NOT EXISTS idx_todo_user_id ON %s.todos (user_id)`, keyspace),
 		fmt.Sprintf(`CREATE INDEX IF NOT EXISTS idx_todo_status ON %s.todos (status)`, keyspace),
 		fmt.Sprintf(`CREATE INDEX IF NOT EXISTS idx_todo_created ON %s.todos (created)`, keyspace),
 		fmt.Sprintf(`CREATE TABLE IF NOT EXISTS %s.users (
-        	id UUID PRIMARY KEY,
+        	id UUID,
         	username TEXT,
         	hashed_password TEXT,
         	created TIMESTAMP,
-        	updated TIMESTAMP
+        	updated TIMESTAMP,
+			PRIMARY KEY (username, id)
     	)`, keyspace),
 	}
 
