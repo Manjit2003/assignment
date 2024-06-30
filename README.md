@@ -6,6 +6,9 @@ This is my submission to the backend assignment as requested by the HR staff at 
 
 ## Functionality
 
+### Bonus point
+I have also implemented the requested sort feature :)
+
 ### User Auth
 - [x] **JWT Auth**: Secure authentication using JSON Web Tokens (JWT) to manage user sessions.
 - [x] **Refresh Token**: Mechanism to refresh JWT tokens without re-authenticating the user.
