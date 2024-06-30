@@ -23,8 +23,7 @@ func cleanDatabase() {
 	db.ScyllaSession.Query(`TRUNCATE users`).Exec()
 }
 
-func TestAddTodoAndGetTodos(t *testing.T) {
-
+func TestTodoService(t *testing.T) {
 	db.InitDatabase(&config.TestConfig)
 	defer cleanDatabase()
 
@@ -99,6 +98,100 @@ func TestAddTodoAndGetTodos(t *testing.T) {
 
 		if singleTodo.ID != todoId {
 			t.Fatalf("returned wrong todo: expected %s, received %s", todoId, singleTodo.ID)
+		}
+	})
+
+	t.Run("update todo of user", func(t *testing.T) {
+		todos, _, err := todo_service.GetUserTodos(userId, 1, nil, nil)
+
+		if err != nil {
+			t.Fatalf("error getting todos: %v", err)
+		}
+
+		if len(todos) < 1 {
+			t.Fatalf("expected at least one todo to update")
+		}
+
+		todo := todos[0]
+		todo.Title = "Updated title"
+		todo.Description = "Updated description"
+		todo.Status = "completed"
+
+		err = todo_service.UpdateUserTodo(todo, userId)
+
+		if err != nil {
+			t.Fatalf("error updating todo: %v", err)
+		}
+
+		updatedTodo, err := todo_service.GetSingleUserTodo(userId, todo.ID)
+
+		if err != nil {
+			t.Fatalf("error getting updated todo: %v", err)
+		}
+
+		if updatedTodo.Title != "Updated title" || updatedTodo.Description != "Updated description" || updatedTodo.Status != "completed" {
+			t.Fatalf("todo not updated correctly: %+v", updatedTodo)
+		}
+	})
+
+	t.Run("patch todo of user", func(t *testing.T) {
+		todos, _, err := todo_service.GetUserTodos(userId, 1, nil, nil)
+
+		if err != nil {
+			t.Fatalf("error getting todos: %v", err)
+		}
+
+		if len(todos) < 1 {
+			t.Fatalf("expected at least one todo to patch")
+		}
+
+		todo := todos[0]
+		patch := model.TodoPatch{
+			Title:       utils.StringPtr("Patched title"),
+			Description: utils.StringPtr("Patched description"),
+			Status:      utils.StringPtr("in-progress"),
+		}
+
+		err = todo_service.PatchUserTodo(patch, todo.ID, userId)
+
+		if err != nil {
+			t.Fatalf("error patching todo: %v", err)
+		}
+
+		patchedTodo, err := todo_service.GetSingleUserTodo(userId, todo.ID)
+
+		if err != nil {
+			t.Fatalf("error getting patched todo: %v", err)
+		}
+
+		if patchedTodo.Title != "Patched title" || patchedTodo.Description != "Patched description" || patchedTodo.Status != "in-progress" {
+			t.Fatalf("todo not patched correctly: %+v", patchedTodo)
+		}
+	})
+
+	t.Run("delete todo of user", func(t *testing.T) {
+		todos, _, err := todo_service.GetUserTodos(userId, 1, nil, nil)
+
+		if err != nil {
+			t.Fatalf("error getting todos: %v", err)
+		}
+
+		if len(todos) < 1 {
+			t.Fatalf("expected at least one todo to delete")
+		}
+
+		todo := todos[0]
+
+		err = todo_service.DeleteUserTodo(todo.ID, userId)
+
+		if err != nil {
+			t.Fatalf("error deleting todo: %v", err)
+		}
+
+		_, err = todo_service.GetSingleUserTodo(userId, todo.ID)
+
+		if err == nil {
+			t.Fatalf("expected error when getting deleted todo, got none")
 		}
 	})
 }

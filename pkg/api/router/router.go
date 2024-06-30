@@ -32,6 +32,9 @@ func MakeRouter() *mux.Router {
 		todoRouter.Use(middleware.AuthMiddleware)
 		todoRouter.HandleFunc("", handler.HandleGetUserTodos).Methods("GET")
 		todoRouter.HandleFunc("", handler.HandleAddUserTodo).Methods("POST")
+		todoRouter.HandleFunc("/{id}", handler.HandleUpdateUserTodo).Methods("PUT")
+		todoRouter.HandleFunc("/{id}", handler.HandlePatchUserTodo).Methods("PATCH")
+		todoRouter.HandleFunc("/{id}", handler.HandleDeleteUserTodo).Methods("DELETE")
 
 	}
 

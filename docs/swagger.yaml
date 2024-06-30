@@ -12,6 +12,18 @@ definitions:
       refresh_token:
         type: string
     type: object
+  handler.HandlePatchUserTodo.payload:
+    additionalProperties: true
+    type: object
+  handler.HandleUpdateUserTodo.payload:
+    properties:
+      description:
+        type: string
+      status:
+        type: string
+      title:
+        type: string
+    type: object
   handler.HandleUserLogin.payload:
     properties:
       password:
@@ -155,7 +167,7 @@ paths:
           schema:
             $ref: '#/definitions/utils.HTTPReponse'
         "500":
-          description: Internal server error"// @Security     ApiKeyAuth
+          description: Internal server error
           schema:
             $ref: '#/definitions/utils.HTTPReponse'
       security:
@@ -197,6 +209,121 @@ paths:
       security:
       - ApiKeyAuth: []
       summary: Add a new todo item
+      tags:
+      - Todos
+  /todos/{id}:
+    delete:
+      description: Deletes a todo item for a user by its ID. Requires user authentication.
+      parameters:
+      - description: Todo ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Todo item deleted successfully
+          schema:
+            $ref: '#/definitions/utils.HTTPReponse'
+        "400":
+          description: Invalid request payload
+          schema:
+            $ref: '#/definitions/utils.HTTPReponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/utils.HTTPReponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/utils.HTTPReponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Delete a todo item
+      tags:
+      - Todos
+    patch:
+      consumes:
+      - application/json
+      description: Partially updates a todo item for a user with the provided fields.
+        Requires user authentication.
+      parameters:
+      - description: Todo ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Partial todo item data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handler.HandlePatchUserTodo.payload'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Todo item updated successfully
+          schema:
+            $ref: '#/definitions/utils.HTTPReponse'
+        "400":
+          description: Invalid request payload
+          schema:
+            $ref: '#/definitions/utils.HTTPReponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/utils.HTTPReponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/utils.HTTPReponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Partially update a todo item
+      tags:
+      - Todos
+    put:
+      consumes:
+      - application/json
+      description: Updates a todo item for a user with the provided title, description,
+        and status. Requires user authentication.
+      parameters:
+      - description: Todo ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Todo item data
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handler.HandleUpdateUserTodo.payload'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Todo item updated successfully
+          schema:
+            $ref: '#/definitions/utils.HTTPReponse'
+        "400":
+          description: Invalid request payload
+          schema:
+            $ref: '#/definitions/utils.HTTPReponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/utils.HTTPReponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/utils.HTTPReponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Update a todo item
       tags:
       - Todos
 securityDefinitions:

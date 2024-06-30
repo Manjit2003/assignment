@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/base64"
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -117,6 +118,7 @@ func HandleAddUserTodo(w http.ResponseWriter, r *http.Request) {
 	err = todo_service.AddUserTodo(model.TodoItem{
 		Title:       data.Title,
 		Description: data.Description,
+		Status:      "pending",
 	}, userId)
 
 	if err != nil {
@@ -204,7 +206,8 @@ func HandleUpdateUserTodo(w http.ResponseWriter, r *http.Request) {
 // @Router			/todos/{id} [patch]
 // @Security		ApiKeyAuth
 func HandlePatchUserTodo(w http.ResponseWriter, r *http.Request) {
-	var updates map[string]interface{}
+	type payload map[string]interface{}
+	var updates payload
 	if err := json.NewDecoder(r.Body).Decode(&updates); err != nil {
 		utils.SendResponse(w, 400, utils.HTTPReponse{
 			Error:   true,
@@ -220,6 +223,7 @@ func HandlePatchUserTodo(w http.ResponseWriter, r *http.Request) {
 	// Get the existing todo item
 	todo, err := todo_service.GetSingleUserTodo(userId, vars["id"])
 	if err != nil {
+		fmt.Println(err)
 		utils.SendResponse(w, 404, utils.HTTPReponse{
 			Error:   true,
 			Message: "todo not found",
@@ -239,6 +243,7 @@ func HandlePatchUserTodo(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if err := todo_service.UpdateUserTodo(*todo, userId); err != nil {
+		fmt.Println(err)
 		utils.SendResponse(w, 500, utils.HTTPReponse{
 			Error:   true,
 			Message: "error updating todo item",

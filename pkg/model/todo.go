@@ -11,3 +11,9 @@ type TodoItem struct {
 	Created     time.Time `json:"created"`
 	Updated     time.Time `json:"updated"`
 }
+
+type TodoPatch struct {
+	Title       *string
+	Description *string
+	Status      *string
+}

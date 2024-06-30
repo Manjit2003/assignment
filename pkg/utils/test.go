@@ -14,3 +14,7 @@ func GenerateRandomCreds() (string, string) {
 	num := rand.Intn(max-min) + min
 	return fmt.Sprintf("username_%d", num), fmt.Sprintf("password_%d", num)
 }
+
+func StringPtr(str string) *string {
+	return &str
+}
