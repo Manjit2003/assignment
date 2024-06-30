@@ -26,6 +26,8 @@ import (
 // @name						Authorization
 // @externalDocs.description	Github Repo
 // @externalDocs.url			http://github.com/Manjit2003/assignment
+// @tags Tag1, Tag2, Tag3
+// @defaultExpandDepth 1
 func main() {
 
 	log := utils.GetChildLogger("entrypoint")

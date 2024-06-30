@@ -26,6 +26,7 @@ func GetUserIDFromContext(ctx context.Context) string {
 // @Tags			Todos
 // @Produce		json
 // @Param			status		query		string				false	"TODO status (e.g., pending, completed)"
+// @Param			sort		query		string				false	"The field to sort. (e.g., created.asc, updated.asc)"
 // @Param			page_state	query		string				false	"Pagination state"
 // @Param			page_size	query		int					false	"Page size"
 // @Success		200			{object}	utils.HTTPReponse	"Todos fetched"
@@ -37,6 +38,7 @@ func GetUserIDFromContext(ctx context.Context) string {
 func HandleGetUserTodos(w http.ResponseWriter, r *http.Request) {
 	userId := GetUserIDFromContext(r.Context())
 	status := r.URL.Query().Get("status")
+	sort := r.URL.Query().Get("sort")
 	pageStateStr := r.URL.Query().Get("page_state")
 	pageSizeStr := r.URL.Query().Get("page_size")
 
@@ -61,9 +63,9 @@ func HandleGetUserTodos(w http.ResponseWriter, r *http.Request) {
 	var nextPageState string
 	var err error
 	if status != "" {
-		todos, nextPageState, err = todo_service.GetUserTodos(userId, pageSize, pageState, &status)
+		todos, nextPageState, err = todo_service.GetUserTodos(userId, pageSize, pageState, &status, sort)
 	} else {
-		todos, nextPageState, err = todo_service.GetUserTodos(userId, pageSize, pageState, nil)
+		todos, nextPageState, err = todo_service.GetUserTodos(userId, pageSize, pageState, nil, sort)
 	}
 
 	if err != nil {

@@ -143,6 +143,10 @@ paths:
         in: query
         name: status
         type: string
+      - description: The field to sort. (e.g., created.asc, updated.asc)
+        in: query
+        name: sort
+        type: string
       - description: Pagination state
         in: query
         name: page_state

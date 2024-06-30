@@ -29,12 +29,21 @@ func AddUserTodo(item model.TodoItem, userId string) error {
 	).Exec()
 }
 
-func GetUserTodos(userId string, pageSize int, pageState []byte, status *string) ([]model.TodoItem, string, error) {
+func GetUserTodos(userId string, pageSize int, pageState []byte, status *string, sort string) ([]model.TodoItem, string, error) {
 	q := strings.Clone(queryGetTodos)
 	params := []interface{}{userId}
 	if status != nil {
 		q += " AND status = ?"
 		params = append(params, *status)
+	}
+	if sort != "" {
+		var dir = "DESC"
+		split := strings.Split(sort, ".")
+		if len(split) == 2 {
+			dir = strings.ToUpper(split[1])
+		}
+		q += " ORDER BY created DESC"
+		params = append(params, dir)
 	}
 	var todos []model.TodoItem
 	query := db.ScyllaSession.Query(q, params...).PageSize(pageSize).PageState(pageState)

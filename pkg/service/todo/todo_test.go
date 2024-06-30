@@ -42,7 +42,7 @@ func TestTodoService(t *testing.T) {
 	})
 
 	t.Run("get user todos", func(t *testing.T) {
-		todos, _, err := todo_service.GetUserTodos(userId, 10, nil, nil)
+		todos, _, err := todo_service.GetUserTodos(userId, 10, nil, nil, "")
 
 		if err != nil {
 			t.Fatalf("error getting todos: %v", err)
@@ -63,7 +63,7 @@ func TestTodoService(t *testing.T) {
 		}
 
 		status := "pending"
-		todos, nextPageState, err := todo_service.GetUserTodos(userId, 10, nil, &status)
+		todos, nextPageState, err := todo_service.GetUserTodos(userId, 10, nil, &status, "")
 
 		if err != nil {
 			t.Fatalf("error getting todos: %v", err)
@@ -79,7 +79,7 @@ func TestTodoService(t *testing.T) {
 	})
 
 	t.Run("get single todo of user", func(t *testing.T) {
-		todos, _, err := todo_service.GetUserTodos(userId, 1, nil, nil)
+		todos, _, err := todo_service.GetUserTodos(userId, 1, nil, nil, "")
 
 		if err != nil {
 			t.Fatalf("error getting todos: %v", err)
@@ -102,7 +102,7 @@ func TestTodoService(t *testing.T) {
 	})
 
 	t.Run("update todo of user", func(t *testing.T) {
-		todos, _, err := todo_service.GetUserTodos(userId, 1, nil, nil)
+		todos, _, err := todo_service.GetUserTodos(userId, 1, nil, nil, "")
 
 		if err != nil {
 			t.Fatalf("error getting todos: %v", err)
@@ -135,7 +135,7 @@ func TestTodoService(t *testing.T) {
 	})
 
 	t.Run("patch todo of user", func(t *testing.T) {
-		todos, _, err := todo_service.GetUserTodos(userId, 1, nil, nil)
+		todos, _, err := todo_service.GetUserTodos(userId, 1, nil, nil, "")
 
 		if err != nil {
 			t.Fatalf("error getting todos: %v", err)
@@ -170,7 +170,7 @@ func TestTodoService(t *testing.T) {
 	})
 
 	t.Run("delete todo of user", func(t *testing.T) {
-		todos, _, err := todo_service.GetUserTodos(userId, 1, nil, nil)
+		todos, _, err := todo_service.GetUserTodos(userId, 1, nil, nil, "created.asc")
 
 		if err != nil {
 			t.Fatalf("error getting todos: %v", err)

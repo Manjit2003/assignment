@@ -15,7 +15,7 @@ func MakeRouter() *mux.Router {
 
 	r.PathPrefix("/swagger/").Handler(httpSwagger.Handler(
 		httpSwagger.DeepLinking(true),
-		httpSwagger.DocExpansion("none"),
+		httpSwagger.DocExpansion("list"),
 		httpSwagger.DomID("swagger-ui"),
 	)).Methods(http.MethodGet)
 

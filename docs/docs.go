@@ -162,6 +162,12 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
+                        "description": "The field to sort. (e.g., created.asc, updated.asc)",
+                        "name": "sort",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
                         "description": "Pagination state",
                         "name": "page_state",
                         "in": "query"
