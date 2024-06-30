@@ -1,4 +1,4 @@
-![alt text](samespace.png)
+![samespace-logo](samespace.png)
 
 # Samespace Backend Assignment
 
@@ -137,3 +137,10 @@ Tests cover the full range of CRUD operations for todos. Each operation (add, ge
 
 ### User Tests
 Tests validate user creation, retrieval, and other user-related operations.
+
+
+## Swagger demo
+
+You can check the Swagger-ui demo hosted here:
+
+![swagger-ui](swagger.png)
