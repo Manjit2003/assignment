@@ -63,6 +63,7 @@ func createSchema(cfg *config.APIConfig) error {
         	hashed_password TEXT,
         	created TIMESTAMP,
         	updated TIMESTAMP,
+			PRIMARY KEY (username, id),
 			PRIMARY KEY (username, id)
     	)`, cfg.Database.Keyspace),
 	}

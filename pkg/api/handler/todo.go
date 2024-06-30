@@ -17,19 +17,19 @@ func GetUserIDFromContext(ctx context.Context) string {
 	return userID
 }
 
-// @Summary      Get user's TODOs in paginated form
-// @Description  Returns a paginated list of TODO items for a user, with support for status filtering and pagination.
-// @Tags         Todos
-// @Produce      json
-// @Param        status      query    string  false "TODO status (e.g., pending, completed)"
-// @Param        page_state  query    string  false "Pagination state"
-// @Param        page_size   query    int     false "Page size"
-// @Success      200  {object}  utils.HTTPReponse  "Todos fetched"
-// @Failure      400  {object}  utils.HTTPReponse  "Invalid request payload"
-// @Failure      401  {object}  utils.HTTPReponse  "Unauthorized"
-// @Failure      500  {object}  utils.HTTPReponse  "Internal server error"// @Security     ApiKeyAuth
-// @Router       /todos [get]
-// @Security     ApiKeyAuth
+// @Summary		Get user's TODOs in paginated form
+// @Description	Returns a paginated list of TODO items for a user, with support for status filtering and pagination.
+// @Tags			Todos
+// @Produce		json
+// @Param			status		query		string				false	"TODO status (e.g., pending, completed)"
+// @Param			page_state	query		string				false	"Pagination state"
+// @Param			page_size	query		int					false	"Page size"
+// @Success		200			{object}	utils.HTTPReponse	"Todos fetched"
+// @Failure		400			{object}	utils.HTTPReponse	"Invalid request payload"
+// @Failure		401			{object}	utils.HTTPReponse	"Unauthorized"
+// @Failure		500			{object}	utils.HTTPReponse	"Internal server error"//	@Security	ApiKeyAuth
+// @Router			/todos [get]
+// @Security		ApiKeyAuth
 func HandleGetUserTodos(w http.ResponseWriter, r *http.Request) {
 
 	userId := GetUserIDFromContext(r.Context())
@@ -75,18 +75,19 @@ func HandleGetUserTodos(w http.ResponseWriter, r *http.Request) {
 }
 
 // HandleAddUserTodo adds a new todo item for a user.
-// @Summary      Add a new todo item
-// @Description  Adds a new todo item for a user with the provided title and description. Requires user authentication.
-// @Tags         Todos
-// @Accept       json
-// @Produce      json
-// @Param        request  body  handler.HandleAddUserTodo.payload  true  "Todo item data"
-// @Success      200  {object}  utils.HTTPReponse  "Todo item added successfully"
-// @Failure      400  {object}  utils.HTTPReponse  "Invalid request payload"
-// @Failure      401  {object}  utils.HTTPReponse  "Unauthorized"
-// @Failure      500  {object}  utils.HTTPReponse  "Internal server error"
-// @Router       /todos [post]
-// @Security     ApiKeyAuth
+//
+//	@Summary		Add a new todo item
+//	@Description	Adds a new todo item for a user with the provided title and description. Requires user authentication.
+//	@Tags			Todos
+//	@Accept			json
+//	@Produce		json
+//	@Param			request	body		handler.HandleAddUserTodo.payload	true	"Todo item data"
+//	@Success		200		{object}	utils.HTTPReponse					"Todo item added successfully"
+//	@Failure		400		{object}	utils.HTTPReponse					"Invalid request payload"
+//	@Failure		401		{object}	utils.HTTPReponse					"Unauthorized"
+//	@Failure		500		{object}	utils.HTTPReponse					"Internal server error"
+//	@Router			/todos [post]
+//	@Security		ApiKeyAuth
 func HandleAddUserTodo(w http.ResponseWriter, r *http.Request) {
 	type payload struct {
 		Title       string `json:"title"`
