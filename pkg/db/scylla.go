@@ -64,6 +64,7 @@ func createSchema(cfg *config.APIConfig) error {
         	created TIMESTAMP,
         	updated TIMESTAMP,
 			PRIMARY KEY (username, id),
+			PRIMARY KEY (username, id),
 			PRIMARY KEY (username, id)
     	)`, cfg.Database.Keyspace),
 	}
