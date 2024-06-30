@@ -1,0 +1,18 @@
+web:
+  host: "localhost"
+  port: 8080
+
+database:
+  host: "localhost"
+  port: 9042
+  keyspace: "samespace_keyspace"
+  username: "cassandra"
+  password: "cassandra"
+
+auth:
+  jwt_secret: "Hs9NzOp2Ge2FWs8RFXFpHx+A68dLhXsO8zggzXsx784WFd/JRIScDRXTj8kVFs5Tzf0HXNo5m6OBjVq6hsSmNw=="
+  token_expiration: 10
+
+logging:
+  level: "info"
+  filename: "app.log"

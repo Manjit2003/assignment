@@ -1,0 +1,22 @@
+# Configuration for the web server
+web:
+  host: "localhost" # Hostname or IP address the web server will bind to
+  port: 8080 # Port number the web server will listen on
+
+# Configuration for the database connection
+database:
+  host: "localhost" # Hostname or IP address of the database server
+  port: 9042
+  keyspace: "mykeyspace" # Keyspace to be used in the database
+  username: "cassandra" # Username for database authentication
+  password: "cassandra" # Password for database authentication
+
+# Configuration for authentication generate using openssl rand -base64 64
+auth:
+  jwt_secret: "your_jwt_secret" # Secret key used for signing JWT tokens
+  token_expiration: 60 # Token expiration time in minutes
+
+# Configuration for logging
+logging:
+  level: "info" # Logging level (e.g., debug, info, warn, error)
+  filename: "app.log" # Path to the log file

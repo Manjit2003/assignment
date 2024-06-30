@@ -20,7 +20,7 @@ func createRandomUser() string {
 
 func TestAddTodo(t *testing.T) {
 
-	db.InitDatabase(config.TestDBConfig)
+	db.InitDatabase(&config.TestConfig)
 
 	userId := createRandomUser()
 
@@ -37,7 +37,7 @@ func TestAddTodo(t *testing.T) {
 
 func TestGetTodos(t *testing.T) {
 
-	db.InitDatabase(config.TestDBConfig)
+	db.InitDatabase(&config.TestConfig)
 
 	userId := createRandomUser()
 
@@ -75,7 +75,7 @@ func TestGetTodos(t *testing.T) {
 
 		}
 
-		todos, _, err := todo_service.GetUserTodos(userId, 10, []byte(""), nil)
+		todos, _, err := todo_service.GetUserTodos(userId, 10, nil, nil)
 
 		if err != nil {
 			t.Errorf("error getting todos!: %v", err)

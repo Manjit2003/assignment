@@ -33,8 +33,8 @@ func GetUserTodos(userId string, pageSize int, pageState []byte, status *string)
 		params = append(params, *status)
 	}
 	var todos []model.TodoItem
-	query := db.ScyllaSession.Query(q, params...).PageSize(pageSize).PageState([]byte(pageState))
-	iter := query.Iter()
+	qu := db.ScyllaSession.Query(q, params...).PageSize(10).PageState(nil)
+	iter := qu.Iter()
 	var todo model.TodoItem
 	for iter.Scan(&todo.ID, &todo.Title, &todo.Description, &todo.Status, &todo.Created, &todo.Updated) {
 		todos = append(todos, todo)

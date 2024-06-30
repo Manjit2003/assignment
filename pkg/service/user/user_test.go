@@ -9,7 +9,7 @@ import (
 )
 
 func TestCreateUser(t *testing.T) {
-	db.InitDatabase(config.TestDBConfig)
+	db.InitDatabase(&config.TestConfig)
 
 	if err := user_service.AddUser("Manjit2003", "my_sample_hashed_passwords"); err != nil {
 		t.Errorf("err creating user: %v", err)
@@ -17,7 +17,7 @@ func TestCreateUser(t *testing.T) {
 }
 
 func TestGetUser(t *testing.T) {
-	db.InitDatabase(config.TestDBConfig)
+	db.InitDatabase(&config.TestConfig)
 
 	if err := user_service.AddUser("Manjit2004", "my_sample_hashed_passwords"); err != nil {
 		t.Errorf("err creating user: %v", err)
@@ -26,6 +26,7 @@ func TestGetUser(t *testing.T) {
 	user, err := user_service.GetUser("Manjit2004")
 
 	if err != nil {
+
 		t.Errorf("error getting user from database: %v", err)
 	}
 

@@ -10,7 +10,7 @@ import (
 )
 
 func TestUserRegister(t *testing.T) {
-	db.InitDatabase(config.TestDBConfig)
+	db.InitDatabase(&config.TestConfig)
 
 	user, pass := utils.GenerateRandomCreds()
 
@@ -22,7 +22,7 @@ func TestUserRegister(t *testing.T) {
 }
 
 func TestLoginUser(t *testing.T) {
-	db.InitDatabase(config.TestDBConfig)
+	db.InitDatabase(&config.TestConfig)
 
 	user, pass := utils.GenerateRandomCreds()
 
@@ -48,7 +48,7 @@ func TestLoginUser(t *testing.T) {
 }
 
 func TestRefreshToken(t *testing.T) {
-	db.InitDatabase(config.TestDBConfig)
+	db.InitDatabase(&config.TestConfig)
 
 	user, pass := utils.GenerateRandomCreds()
 
