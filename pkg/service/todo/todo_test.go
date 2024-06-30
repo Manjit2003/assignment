@@ -170,7 +170,7 @@ func TestTodoService(t *testing.T) {
 	})
 
 	t.Run("delete todo of user", func(t *testing.T) {
-		todos, _, err := todo_service.GetUserTodos(userId, 1, nil, nil, "created.asc")
+		todos, _, err := todo_service.GetUserTodos(userId, 1, nil, nil, "")
 
 		if err != nil {
 			t.Fatalf("error getting todos: %v", err)

@@ -35,7 +35,6 @@ func MakeRouter() *mux.Router {
 		todoRouter.HandleFunc("/{id}", handler.HandleUpdateUserTodo).Methods("PUT")
 		todoRouter.HandleFunc("/{id}", handler.HandlePatchUserTodo).Methods("PATCH")
 		todoRouter.HandleFunc("/{id}", handler.HandleDeleteUserTodo).Methods("DELETE")
-
 	}
 
 	return r

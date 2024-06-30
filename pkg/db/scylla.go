@@ -48,13 +48,13 @@ func createSchema(cfg *config.APIConfig) error {
 		fmt.Sprintf(`CREATE TABLE IF NOT EXISTS %s.todos (
 			user_id UUID,
 			id UUID,
+			status TEXT,
 			title TEXT,
 			description TEXT,
-			status TEXT,
 			created TIMESTAMP,
 			updated TIMESTAMP,
-			PRIMARY KEY ((user_id, id, status), created)
-		) WITH CLUSTERING ORDER BY (created DESC);`, cfg.Database.Keyspace),
+			PRIMARY KEY ((user_id), id, created)
+		) WITH CLUSTERING ORDER BY (id ASC, created DESC);`, cfg.Database.Keyspace),
 		fmt.Sprintf(`CREATE INDEX IF NOT EXISTS idx_todo_status ON %s.todos (status)`, cfg.Database.Keyspace),
 		fmt.Sprintf(`CREATE INDEX IF NOT EXISTS idx_todo_created ON %s.todos (created)`, cfg.Database.Keyspace),
 		fmt.Sprintf(`CREATE TABLE IF NOT EXISTS %s.users (

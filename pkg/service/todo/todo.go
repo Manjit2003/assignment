@@ -37,17 +37,16 @@ func GetUserTodos(userId string, pageSize int, pageState []byte, status *string,
 		params = append(params, *status)
 	}
 	if sort != "" {
-		var dir = "DESC"
+		/* var dir = "DESC"
 		split := strings.Split(sort, ".")
 		if len(split) == 2 {
 			dir = strings.ToUpper(split[1])
-		}
+		} */
 		q += " ORDER BY created DESC"
-		params = append(params, dir)
 	}
 	var todos []model.TodoItem
 	query := db.ScyllaSession.Query(q, params...).PageSize(pageSize).PageState(pageState)
-
+	fmt.Println(query.Statement(), query.Values())
 	iter := query.Iter()
 	var todo model.TodoItem
 	for iter.Scan(&todo.ID, &todo.Title, &todo.Description, &todo.Status, &todo.Created, &todo.Updated) {
