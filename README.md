@@ -1,4 +1,4 @@
-![alt text](https://github.com/Manjit2003/samespace/blob/documentation/samespace.jpg?raw=true)
+![alt text](samespace.png)
 
 # Samespace Backend Assignment
 
