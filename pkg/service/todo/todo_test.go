@@ -18,30 +18,19 @@ func createRandomUser() string {
 	return user.ID
 }
 
-func TestAddTodo(t *testing.T) {
-
-	db.InitDatabase(&config.TestConfig)
-
-	userId := createRandomUser()
-
-	err := todo_service.AddUserTodo(model.TodoItem{
-		Title:       "Hello world",
-		Description: "Description",
-		Status:      "pending",
-	}, userId)
-
-	if err != nil {
-		t.Errorf("error creating a todo: %v", err)
-	}
+func cleanDatabase() {
+	db.ScyllaSession.Query(`TRUNCATE todos`).Exec()
+	db.ScyllaSession.Query(`TRUNCATE users`).Exec()
 }
 
-func TestGetTodos(t *testing.T) {
+func TestAddTodoAndGetTodos(t *testing.T) {
 
 	db.InitDatabase(&config.TestConfig)
+	defer cleanDatabase()
 
 	userId := createRandomUser()
 
-	t.Run("create todo under user", func(t *testing.T) {
+	t.Run("create todo for user", func(t *testing.T) {
 		err := todo_service.AddUserTodo(model.TodoItem{
 			Title:       "Hello world",
 			Description: "Description",
@@ -49,42 +38,67 @@ func TestGetTodos(t *testing.T) {
 		}, userId)
 
 		if err != nil {
-			t.Errorf("error creating a todo: %v", err)
+			t.Fatalf("error creating a todo: %v", err)
 		}
 	})
 
 	t.Run("get user todos", func(t *testing.T) {
-		todos, _, err := todo_service.GetUserTodos(userId, 10, []byte(""), nil)
+		todos, _, err := todo_service.GetUserTodos(userId, 10, nil, nil)
 
 		if err != nil {
-			t.Errorf("error getting todos!: %v", err)
+			t.Fatalf("error getting todos: %v", err)
 		}
 
 		if len(todos) < 1 {
-			t.Errorf("todos are blank")
+			t.Fatalf("expected at least one todo, got %d", len(todos))
 		}
 	})
 
-	t.Run("get paginated list", func(t *testing.T) {
-		for range 20 {
+	t.Run("get paginated list of todos", func(t *testing.T) {
+		for i := 0; i < 20; i++ {
 			todo_service.AddUserTodo(model.TodoItem{
 				Title:       "Hello world",
 				Description: "Description",
 				Status:      "pending",
 			}, userId)
-
 		}
 
-		_, _, err := todo_service.GetUserTodos(userId, 10, nil, nil)
+		status := "pending"
+		todos, nextPageState, err := todo_service.GetUserTodos(userId, 10, nil, &status)
 
 		if err != nil {
-			t.Errorf("error getting todos!: %v", err)
+			t.Fatalf("error getting todos: %v", err)
 		}
 
-		/* 		if len(todos) != 10 {
-		   			t.Errorf("todos are more than requested :%d", len(todos))
-		   		}
-		*/
+		if len(todos) != 10 {
+			t.Fatalf("expected 10 todos, got %d", len(todos))
+		}
+
+		if nextPageState == "" {
+			t.Fatalf("expected non-empty nextPageState for pagination")
+		}
 	})
 
+	t.Run("get single todo of user", func(t *testing.T) {
+		todos, _, err := todo_service.GetUserTodos(userId, 1, nil, nil)
+
+		if err != nil {
+			t.Fatalf("error getting todos: %v", err)
+		}
+
+		if len(todos) < 1 {
+			t.Fatalf("expected at least one todo to fetch a single todo")
+		}
+
+		todoId := todos[0].ID
+		singleTodo, err := todo_service.GetSingleUserTodo(userId, todoId)
+
+		if err != nil {
+			t.Fatalf("error getting single todo: %v", err)
+		}
+
+		if singleTodo.ID != todoId {
+			t.Fatalf("returned wrong todo: expected %s, received %s", todoId, singleTodo.ID)
+		}
+	})
 }
