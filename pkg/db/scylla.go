@@ -53,7 +53,7 @@ func createSchema(cfg *config.APIConfig) error {
 			status TEXT,
 			created TIMESTAMP,
 			updated TIMESTAMP,
-			PRIMARY KEY (user_id, id)
+			PRIMARY KEY (user_id, status, id)
 		);`, cfg.Database.Keyspace),
 		fmt.Sprintf(`CREATE INDEX IF NOT EXISTS idx_todo_status ON %s.todos (status)`, cfg.Database.Keyspace),
 		fmt.Sprintf(`CREATE INDEX IF NOT EXISTS idx_todo_created ON %s.todos (created)`, cfg.Database.Keyspace),
@@ -64,8 +64,6 @@ func createSchema(cfg *config.APIConfig) error {
         	created TIMESTAMP,
         	updated TIMESTAMP,
 			PRIMARY KEY (username, id),
-			PRIMARY KEY (username, id),
-			PRIMARY KEY (username, id)
     	)`, cfg.Database.Keyspace),
 	}
 
