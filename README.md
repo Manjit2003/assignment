@@ -138,6 +138,26 @@ Tests cover the full range of CRUD operations for todos. Each operation (add, ge
 ### User Tests
 Tests validate user creation, retrieval, and other user-related operations.
 
+Certainly! Here's an improved version of the instructions:
+
+
+## Running the Application
+
+This project is fully containerized using Docker. Follow the steps below to get the application up and running:
+
+1. **Configuration:**
+   - In the root directory of the project, create a file named `config.yaml` based on the provided `config.example.yaml`. Ensure all necessary configurations are properly set in this file.
+
+2. **Starting the Application:**
+   - Open a terminal in the root directory of the project.
+   - Execute the following command to start the application:
+     ```bash
+     docker-compose up
+     ```
+
+3. **Accessing the Application:**
+   - By default, the application will be available on port `8080`. Open your browser and navigate to `http://localhost:8080` to access it.
+
 
 ## Swagger demo
 

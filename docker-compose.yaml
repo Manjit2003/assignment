@@ -1,0 +1,33 @@
+version: "3.8"
+
+services:
+  scylladb:
+    image: scylladb/scylla:latest
+    volumes:
+      - scylla_data:/var/lib/scylla
+    environment:
+      - SCYLLA_ALLOW_UNSUPPORTED=1
+    ports:
+      - "9042:9042"
+    healthcheck:
+      test: ["CMD", "scylla", "--help"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  todoapi:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - scylladb
+    volumes:
+      - ./config.yaml:/root/config.yaml:ro
+    environment:
+      - SCYLLA_HOST=scylladb
+      - SCYLLA_PORT=9042
+
+volumes:
+  scylla_data:

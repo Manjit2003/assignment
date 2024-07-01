@@ -32,7 +32,8 @@ func main() {
 
 	log := utils.GetChildLogger("entrypoint")
 
-	config.LoadConfig("config.yaml")
+	config.LoadConfig("/root/config.yaml")
+	time.Sleep(5 * time.Second)
 	db.InitDatabase(config.Config)
 
 	srv := server.MakeServer()
